@@ -1,19 +1,22 @@
 body {
     background: #fff4e6;
-    text-align: center;
+    text-align: left;
     padding: 0 25px;
     font-family: arial, sans-serif;
     z-index: 1;
 }
 
 button {
-    background-color: #4b3832;
+    background-color: #bdaeaee;
+    color: #5e5656;
     border-radius: 10px;
-    color: white;
     font-size: 1.2rem;
-    min-width: 100px;
+    width: 50%;
     margin: auto auto 20px;
     padding: 5px;
+    text-align: center;
+    clear: both;
+    float: center;
 }
 
 a {
@@ -24,14 +27,29 @@ a {
 
 }
 
-#main, #chats {
-    width: 40%;
-    margin: auto;
+#main {
+    position: absolute;
     text-align: center;
-    background: white;
-    padding: 50px 60px;
-    border: solid #ddd;
-    border-width: 0 1px 1px 1px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 35%;
+    float: left;
+    background-color: #ebf4f6;
+    /*width: 40%;*/
+/*    margin: auto;
+    text-align: center;
+    background: white;*/
+    padding: 20px 20px;
+/*    border: solid #ddd;
+    border-width: 0 1px 1px 1px;*/
+}
+
+#chats {
+    width: 1000px;
+    float: right;
+    text-align: center;
 }
 
 #main h1 {
@@ -72,21 +90,21 @@ form {
     margin-bottom: 20px;
 }
 
-form input[type=textarea] {
+input[type=textarea] {
     margin-bottom: 10px;
     width: 70%;
     font-size: 12px;
     padding: 5px;
-    min-height: 100px;
+    min-height: 40px;
     text-align: left;
-    vertical-align: text-top;
+    vertical-align: text-top;*/
 }
 
 .overlay {
     display: none;
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 65%;
+    left: 17.5%;
     width: 400px;
     width: 300px;
     margin: -200px -150px;
@@ -96,6 +114,9 @@ form input[type=textarea] {
     border-radius: 5px;
     text-align: center;
     z-index: 2;
+}
+.select {
+    
 }
 
 .chat {
@@ -130,7 +151,7 @@ form input[type=textarea] {
     background-color: #fff4e6;
     border-radius: 10px;
     margin: 10px auto;
-    width: 70%;
+    width: 40%;
 }
 .post-body {
     border-top: 2px black solid;
@@ -140,4 +161,10 @@ form input[type=textarea] {
     background-color: lightgray;
     border-radius: 10px 10px 0 0;
     font-family:'Open Sans', sans-serif;;
+}
+.post-footer {
+    background-color: darkgray;
+}
+#roomSelect {
+    margin-top: 20px;
 }

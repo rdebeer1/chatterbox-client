@@ -5,27 +5,31 @@ var app = {
   friends: {},
   messages: [],
   messagesShown: 0,
-  username: $('#username').val(),
-
-
+  username: undefined,
+  friendsHidden: false,
 
   init: () => {
     $('#post').click(() => {
       $('.overlay').slideToggle();
     });
     $('#message-form').submit((e) => {
-      console.log(message)
+      e.preventDefault();
+      app.username = $('#username').val();
+
       let message = {
         username: app.username,
         text: $('#message-box').val(),
         roomname: app.currentRoom
       };
-      e.preventDefault();
-      app.send(message);
+      
+      app.handleSubmit(message);
+
+      setTimeout(() => {
+        $('.overlay').slideToggle();
+        $('#message-box').val('');
+      }, 1000);
     });
     $('#new').click(() => {
-      app.renderMessage(app.messages[app.messages.length - 1 - app.messagesShown]);
-      app.messagesShown++;
       app.fetch();
       $('#display').text('Alerts');
     });
@@ -38,17 +42,26 @@ var app = {
       }
       $('#new-room').val('');
     });
+    $('#roomSelect').on('change', () => {
+      app.showRooms($('#roomSelect').val());
+    });
+    $('#chats').on('click', '.username', (e) => {
+      app.handleUsernameClick($(e.target).text());
+    });
   },
 
   fetch: () => {
-    $.get(app.server, response => {
-      if (app.messages.length === 0) {
-        _.each(response.results, (message) => {
-          app.messages.push(message);
-        });
-        setInterval(app.fetch, 5000);
-      } else {
-        $('#alerts').text('New messages!');
+    $.ajax({
+      url: app.server,
+      type: 'GET',
+      data: {order: '-createdAt', limit: '50'},
+      success: (data) => {
+        var posts = data.results;
+        for (let i = 0; i < posts.length; i++) {
+          app.messages.push(posts[i]);
+          var message = posts[i];
+          app.renderMessage(message);
+        }
       }
     });
   },
@@ -57,28 +70,21 @@ var app = {
     $.ajax({
       url: app.server,
       type: 'POST',
-      data: JSON.stringify(message),
-      contentType: 'application/json',
+      data: message,
       success: () => {
-        alert('Message sent!');
+        $('#message-box').val('Message sent!');
       },
       error: () => {
-        alert('Message failed to send');
+        $('#message-box').val('Message sent!');
       }
     });
   },
-
+  
   renderMessage: message => {
-    // for (let i = app.messagesShown; i < app.messagesShown + 20; i++) {
-    //   let message = app.messages[i];
-    //   if (message === undefined) {
-    //     return;
-    //   }
-    $('#chats').append(`<div class="post"><div class="post-header"><a href="#" class="username">${message.username}</a>, <span class="timestamp">${new Date(message.createdAt)}<span></div><div class="post-body">${message.text}</div></div>`);
-     $('.username').click(() => {
-       app.handleUsernameClick(message.username);
-     });// }
-    // app.messagesShown += 20;
+    var currentUsername = _.escape(message.username) || 'MALICIOUS USERNAME BLOCKED';
+    var room = _.escape(message.roomname) || 'lobby';
+    var message = _.escape(message.text) || 'MALICIOUS MESSAGE BLOCKED';
+    $('#chats').append(`<div class="post"><div class="post-header"><a href="#" class="username">${currentUsername}</a>, <span class="timestamp">${new Date(message.createdAt)}</span></div><div class="post-body">${message}</div><div class="post-footer">${room}</div></div>`);
   },
 
   clearMessages: () => {
@@ -87,10 +93,10 @@ var app = {
 
 
   renderRoom: room => {
-    $('#roomSelect').append(`<option value='${room}'>${room}</option>`);
+    $('#roomSelect').append(`<option value="${room}"">${room}</option>`);
   },
   //
-  updateTimestamps: () => {                                           //Keeps timestamps current
+  updateTimestamps: () => { //Keeps timestamps current
     var timestamps = $('#chats').find('.timestamp');
     for (let i = 0; i < timestamps.length; i++) {
       $(timestamps[i]).text($.timeago(app.messages[i].createdAt));
@@ -99,19 +105,46 @@ var app = {
 
   handleUsernameClick: (user) => {
     if (!app.friends.hasOwnProperty(user)) {
-    app.friends[user] = true;
+      app.friends[user] = true;
     }
-    var postUsers = $('#chats').find('.username');
-    for (let i = 0; i < postUsers.length; i++) {
-      if ($(postUsers[i]).text() !== user) {
-        $(postUsers[i]).parent().parent().hide();
+    
+    if (!app.friendsHidden) {
+      var postUsers = $('#chats').find('.username');
+      for (let i = 0; i < postUsers.length; i++) {
+        if ($(postUsers[i]).text() !== user) {
+          $(postUsers[i]).parent().parent().remove();
+        }
+      }
+      app.friendsHidden = true;
+    } else {
+      app.clearMessages();
+      app.fetch();
+    }
+  },
+  
+  handleSubmit: message => {
+    app.send(message);
+  },
+  
+  showRooms: room => {
+    _.each(app.messages, message => {
+      app.renderMessage(message);
+    });
+    var posts = $('.post');
+    for (var i = 0; i < posts.length; i++) {
+      if ($(posts[i]).find('.post-footer').text() !== room) {
+        $(posts[i]).remove();
       }
     }
   }
 };
 
+  
+
 $(document).ready(() => {
   app.init();
   app.fetch();
+  $('#current-room').text(app.currentRoom);
   setInterval(app.updateTimestamps, 1000);
+  
 });

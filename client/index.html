@@ -28,26 +28,27 @@
     <script src="scripts/app.js"></script>
   </head>
   <body>
-    <div id="main">
-      <h1>chatterbox</h1>
-      <div>
-        <button id="post">Post</button>
-        <button id="new">Display New</button>
-        <button id="clear">Clear</button>
-      </div>
-      <div>
-        <button id="add-room">Add a Room</button>
-        <input type="textarea" placeholder ="Add room" id ="new-room">
-        <select name="rooms" id="roomSelect">
-          <option value= 'lobby'>Lobby</option>
-        </select>
-      </div>
-      <div class="overlay">
-        <form id="message-form">
-          <input type="text" placeholder="Username" id="username">
-          <input type="textarea" placeholder="Your message here." wrap="off" id="message-box">
-          <input type="submit">
-        </form>
+    <div>
+      <div id="main">
+        <h1>chatterbox</h1>
+        <div>
+          <button id="post">Post</button>
+          <button id="new">Display New</button>
+          <button id="clear">Clear</button>
+          <input type="textarea" placeholder ="Your room here." id="new-room">
+          <button id="add-room">Add a Room</button>
+          <div>Current Room:<span id="current-lobby"></span></div>
+          <select name="rooms" id="roomSelect">
+            <option value='lobby'>lobby</option>
+          </select>
+        </div>
+        <div class="overlay" id="send">
+          <form id="message-form">
+            <input type="text" placeholder="Username" id="username">
+            <input type="textarea" placeholder="Your message here." wrap="off" id="message-box">
+            <input class="submit" type="submit">
+          </form>
+        </div>
       </div>
     </div>
     <div id="chats"></div>
