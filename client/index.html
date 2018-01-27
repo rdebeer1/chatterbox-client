@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>chatterbox</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
     <link rel="stylesheet" href="styles/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:800i" rel="stylesheet">
 
@@ -11,7 +12,7 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
     <script src="jquery.timeago.js"></script>
-    <script>
+    <!-- <script>
       // YOU DO NOT NEED TO EDIT THIS CODE
       if (!/(&|\?)username=/.test(window.location.search)) {
         var newSearch = window.location.search;
@@ -21,7 +22,7 @@
         newSearch += 'username=' + (prompt('What is your name?') || 'anonymous');
         window.location.search = newSearch;
       }
-    </script>
+    </script> -->
     <!-- your scripts -->
     <script src="env/config.js"></script>
     <script src="scripts/app.js"></script>
@@ -29,18 +30,25 @@
   <body>
     <div id="main">
       <h1>chatterbox</h1>
-      <button id="new-message">Write a New Message</button>
-      <button id="alerts">Show New Message</button>
-      <button id="clear">Clear Messages</button>
-      <button id="add-room">Add a Room</button>
-      <input type="text" placeholder ="Add room" id ="new-room">
-      <select name="rooms" id="roomSelect">
-        <option value= 'lobby'>Lobby</option>
-      </select>
-      <form id="message-form">
-        <input type="text" placeholder="Your message here." id="message-box">
-        <input type="submit" id="send">
-      </form>
+      <div>
+        <button id="post">Post</button>
+        <button id="new">Display New</button>
+        <button id="clear">Clear</button>
+      </div>
+      <div>
+        <button id="add-room">Add a Room</button>
+        <input type="textarea" placeholder ="Add room" id ="new-room">
+        <select name="rooms" id="roomSelect">
+          <option value= 'lobby'>Lobby</option>
+        </select>
+      </div>
+      <div class="overlay">
+        <form id="message-form">
+          <input type="text" placeholder="Username" id="username">
+          <input type="textarea" placeholder="Your message here." wrap="off" id="message-box">
+          <input type="submit">
+        </form>
+      </div>
     </div>
     <div id="chats"></div>
   </body>
