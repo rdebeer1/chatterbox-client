@@ -11,7 +11,7 @@ var app = {
     $('#new-message').click(() => {
       $('#message-form').css('display', 'block');
     });
-    $('#submit').click(() => {
+    $('#send').click(() => {
       console.log($('#message-box').val());
       app.send($('#message-box').val());
     });
