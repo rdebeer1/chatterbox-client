@@ -1,17 +1,22 @@
 body {
-    background: #fff4e6;
+    background: #58668b;
     text-align: left;
-    padding: 0 25px;
     font-family: arial, sans-serif;
     z-index: 1;
+    overflow: hidden;
+    
+}
+
+#container {
+    display: flex;
 }
 
 button {
     background-color: #bdaeaee;
     color: #5e5656;
     border-radius: 10px;
-    font-size: 1.2rem;
-    width: 50%;
+    font-size: 1.2em;
+    min-width: 50%;
     margin: auto auto 20px;
     padding: 5px;
     text-align: center;
@@ -23,33 +28,39 @@ a {
     text-decoration: none;
     color: #3c2f2f;
     font-weight: bold;
-    font-style:
 
 }
 
 #main {
-    position: absolute;
+    flex: 1;
     text-align: center;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 35%;
-    float: left;
+    /*right: 0;*/
+    /*left: 0;*/
+    /*float: left;*/
+    /*width: 35%;*/
     background-color: #ebf4f6;
+    /*margin-left: -30px;*/
+    height: 100vh;
     /*width: 40%;*/
 /*    margin: auto;
     text-align: center;
     background: white;*/
-    padding: 20px 20px;
 /*    border: solid #ddd;
     border-width: 0 1px 1px 1px;*/
 }
 
 #chats {
-    width: 1000px;
-    float: right;
+    /*float: right;*/
     text-align: center;
+    border-left: 5px #5e5656 solid;
+    flex: 2;
+    overflow: scroll;
+    height: 100vh;
+}
+
+img {
+    margin: -100px -50px -150px 0;
+    max-width: 100%;
 }
 
 #main h1 {
@@ -102,12 +113,10 @@ input[type=textarea] {
 
 .overlay {
     display: none;
-    position: fixed;
-    top: 65%;
-    left: 17.5%;
-    width: 400px;
-    width: 300px;
-    margin: -200px -150px;
+    top: 70%;
+    width: 75%;
+    flex: 1 ;
+    margin: 12% 9%;
     padding: 20px;
     background-color: white;
     border: 2px solid black;
@@ -122,7 +131,7 @@ input[type=textarea] {
 .chat {
     padding: 5px;
     margin-bottom: 5px;
-    background-color: #eee;
+    background-color: #76b4bd;
 }
 
 .chat .username {
@@ -149,9 +158,10 @@ input[type=textarea] {
 }
 .post {
     background-color: #fff4e6;
-    border-radius: 10px;
+    border: 2px lightgray solid;
+    border-radius: 18px;
     margin: 10px auto;
-    width: 40%;
+    width: 50%;
 }
 .post-body {
     border-top: 2px black solid;
@@ -164,6 +174,7 @@ input[type=textarea] {
 }
 .post-footer {
     background-color: darkgray;
+    border-radius: 0 0 10px 10px;
 }
 #roomSelect {
     margin-top: 20px;

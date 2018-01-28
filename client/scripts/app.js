@@ -4,6 +4,7 @@ var app = {
   context: this,
   friends: {},
   messages: [],
+  roomList: [],
   messagesShown: 0,
   username: undefined,
   friendsHidden: false,
@@ -62,6 +63,7 @@ var app = {
           var message = posts[i];
           app.renderMessage(message);
         }
+        app.populateRoomOptions();
       }
     });
   },
@@ -84,7 +86,16 @@ var app = {
     var currentUsername = _.escape(message.username) || 'MALICIOUS USERNAME BLOCKED';
     var room = _.escape(message.roomname) || 'lobby';
     var message = _.escape(message.text) || 'MALICIOUS MESSAGE BLOCKED';
-    $('#chats').append(`<div class="post"><div class="post-header"><a href="#" class="username">${currentUsername}</a>, <span class="timestamp">${new Date(message.createdAt)}</span></div><div class="post-body">${message}</div><div class="post-footer">${room}</div></div>`);
+    $('#chats').append(`<div class="post"><div class="post-header"><a href="#" class="username">@${currentUsername}</a>, <span class="timestamp">${new Date(message.createdAt)}</span></div><div class="post-body">${message}</div><div class="post-footer"><b>Room:</b> ${room}</div></div>`);
+    if (app.roomList.indexOf(room) < 0 && room !== 'lobby') {
+      app.roomList.push(room);
+    }
+  },
+  
+  populateRoomOptions: () => {
+    for (let i = 0; i < app.roomList.length; i++) {
+      app.renderRoom(app.roomList[i]);
+    }
   },
 
   clearMessages: () => {
